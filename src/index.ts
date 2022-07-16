@@ -7,8 +7,12 @@ import ParserInline from 'markdown-it/lib/parser_inline'
 export const colorPlugin: PluginWithOptions<Options> = (
   md,
   {
-    defaultClassName = 'md-colorify', //
+    defaultClassName = 'md-colorify',
+    prefixClassName = '',
     inline = false,
+    maxColorNameLen = 10,
+    maxContentLen = 0,
+    isMultiLine = false,
   } = {},
 ) => {
   const tokenize: ParserInline.RuleInline = (state, silent) => {
@@ -19,14 +23,15 @@ export const colorPlugin: PluginWithOptions<Options> = (
     }
 
     const labelStart = state.pos + 1
-    const labelEnd = parseColorName(state, state.pos, true)
+    const labelEnd = parseColorName(state, state.pos, true, maxColorNameLen)
     if (labelEnd < 0) {
       return false
     }
     const colorName = state.src.substring(labelStart, labelEnd)
 
     const contentStart = labelEnd + 2
-    const contentEnd = parseContent(state, labelEnd + 1)
+    const contentEnd = parseContent(state, labelEnd + 1, maxContentLen,
+      isMultiLine)
     if (contentEnd < 0) {
       return false
     }
@@ -36,7 +41,10 @@ export const colorPlugin: PluginWithOptions<Options> = (
       state.posMax = contentEnd
 
       const openToken = state.push('color_open', 'span', 1)
-      openToken.attrs = [['class', [`${defaultClassName}`, `${defaultClassName}--${colorName}`].join(' ')]]
+      openToken.attrs = [
+        [
+          'class',
+          [`${defaultClassName}`, `${prefixClassName}${colorName}`].join(' ')]]
       if (inline) {
         openToken.attrs.push(['style', `color: ${colorName};`])
       }

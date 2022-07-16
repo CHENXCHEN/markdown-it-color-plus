@@ -1,6 +1,6 @@
 {
-  "name": "markdown-it-color",
-  "version": "2.1.1",
+  "name": "markdown-it-color-plus",
+  "version": "0.0.1-beta3",
   "description": "Inline color plugin for markdown-it",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nkjmsss/markdown-it-color.git"
+    "url": "git+https://github.com/CHENXCHEN/markdown-it-color-plus.git"
   },
   "keywords": [
     "markdown-it",
@@ -24,12 +24,12 @@
     "markdown",
     "color"
   ],
-  "author": "nkjmsss",
+  "author": "CHENXCHEN",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nkjmsss/markdown-it-color/issues"
+    "url": "https://github.com/CHENXCHEN/markdown-it-color-plus/issues"
   },
-  "homepage": "https://github.com/nkjmsss/markdown-it-color#readme",
+  "homepage": "https://github.com/CHENXCHEN/markdown-it-color-plus#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
@@ -42,7 +42,7 @@
     "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "core-js": "^3.2.1",
     "esbuild": "^0.11.5",
-    "markdown-it": "^12.0.3",
+    "markdown-it": "^13.0.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.1.3"
   }

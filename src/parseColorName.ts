@@ -7,7 +7,9 @@ const close = 0x7d /* } */
  * If successful, returns end pos.
  * Else, returns -1
  */
-export const parseColorName = (state: StateInline, start: number, disableNested: boolean): number => {
+export const parseColorName = (
+  state: StateInline, start: number, disableNested: boolean,
+  maxColorNameLen: number): number => {
   let level = 1
   let found = false
   let prevPos: number
@@ -17,8 +19,21 @@ export const parseColorName = (state: StateInline, start: number, disableNested:
 
   state.pos = start + 1
 
+  // check color name length is Exceed max len
+  const isExceedLen = (pos: number): boolean => {
+    return maxColorNameLen != 0 && (pos - start) > maxColorNameLen
+  }
+  // check char visible
+  const isNotValidChar = (char: number): boolean => {
+    return char <= 32
+  }
+
   while (state.pos < max) {
     const marker = state.src.charCodeAt(state.pos)
+    if (isExceedLen(state.pos) || isNotValidChar(marker)) {
+      state.pos = oldPos
+      return -1
+    }
     if (marker === close) {
       level--
       if (level === 0) {

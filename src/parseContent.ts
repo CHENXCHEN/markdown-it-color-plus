@@ -7,9 +7,19 @@ const close = 0x29 /* ) */
  * If successful, returns end pos.
  * Else, returns -1
  */
-export const parseContent = (state: StateInline, start: number): number => {
+export const parseContent = (
+  state: StateInline, start: number, maxContentLen: number,
+  isMultiLine: boolean): number => {
   let pos = start
   const max = state.posMax
+  // check color name length is Exceed max len
+  const isExceedLen = (pos: number): boolean => {
+    return maxContentLen != 0 && (pos - start) > maxContentLen
+  }
+  // check char is enter
+  const isNotValidChar = (char: number): boolean => {
+    return [10, 13].indexOf(char) >= 0
+  }
 
   if (pos < max && state.src.charCodeAt(pos) === open) {
     pos++
@@ -17,6 +27,9 @@ export const parseContent = (state: StateInline, start: number): number => {
     let level = 1
     while (pos < max) {
       const char = state.src.charCodeAt(pos)
+      if (isExceedLen(pos) || (!isMultiLine && isNotValidChar(char))) {
+        return -1
+      }
       if (char === close) {
         level--
 
